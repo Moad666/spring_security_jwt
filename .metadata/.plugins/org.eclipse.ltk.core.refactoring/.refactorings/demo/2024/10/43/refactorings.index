@@ -1,0 +1,7 @@
+1729516955868	Rename type 'UserController'
+1729516973144	Rename type 'UserService'
+1729517000711	Rename type 'UserRepository'
+1729518621833	Rename compilation unit 'UserDto.java'
+1729519011913	Rename type 'AdminService'
+1729519044584	Rename type 'UserService'
+1729707536811	Encapsulate field 'message'

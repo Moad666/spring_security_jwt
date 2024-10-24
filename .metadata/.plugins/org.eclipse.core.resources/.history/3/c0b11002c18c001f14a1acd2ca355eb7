@@ -1,0 +1,40 @@
+package com.example.demo.security;
+
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+	
+	
+	/*@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // Disable all security
+        http.authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
+        	.httpBasic(withDefaults()) // Disable basic auth
+            .csrf().disable();     // Disable CSRF protection
+
+        return http.build();
+    }*/
+	
+	// all req and res pass through
+	@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
+		
+		// all requests should be authenticated
+		http.authorizeHttpRequests((requests) -> requests
+				.requestMatchers("/note/**").permitAll()
+				.anyRequest().permitAll());
+		//http.formLogin(withDefaults());
+		http.httpBasic(withDefaults());
+		//http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		return http.build();
+	}
+}
