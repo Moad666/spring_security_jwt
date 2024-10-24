@@ -14,6 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.demo.entity.AppRole;
 import com.example.demo.entity.Role;
@@ -39,17 +41,7 @@ import org.springframework.context.annotation.Configuration;
 // @EnableMethodSecurity(prePostEnabled=true, securedEnabled=true, jsr250Enabled=true) : @preAuthorize , @PostFilter ...
 public class SecurityConfig{
 	
-	
-	/*@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Disable all security
-        http.authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
-        	.httpBasic(withDefaults()) // Disable basic auth
-            .csrf().disable();     // Disable CSRF protection
 
-        return http.build();
-    }*/
-	
 		
 	
 	/*@Bean
@@ -159,5 +151,18 @@ public class SecurityConfig{
 		return http.build();
 	}
 	
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+	    return new WebMvcConfigurer() {
+	        @Override
+	        public void addCorsMappings(CorsRegistry registry) {
+	            registry.addMapping("/**")  // Allow CORS on all endpoints
+	                .allowedOrigins("http://localhost:3000")  // React frontend origin
+	                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+	                .allowedHeaders("*")
+	                .allowCredentials(true);  // Allow cookies if needed
+	        }
+	    };
+	}
 	
 }
