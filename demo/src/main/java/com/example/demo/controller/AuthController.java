@@ -17,6 +17,7 @@ import com.example.demo.security.response.LoginResponse;
 import com.example.demo.security.response.MessageResponse;
 import com.example.demo.security.response.UserInfoResponse;
 import com.example.demo.service.AdminService;
+import com.example.demo.util.EmailService;
 
 import jakarta.validation.Valid;
 
@@ -33,6 +34,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -63,6 +65,8 @@ public class AuthController {
 	
 	@Autowired
 	AdminService userService;
+	
+	
 
 	
 	@PostMapping("/public/signin")
@@ -171,6 +175,21 @@ public class AuthController {
 	@GetMapping("/username")
 	public String currentUserName(@AuthenticationPrincipal UserDetails userDetails) {
 	    return (userDetails != null) ? userDetails.getUsername() : "";
+	}
+	
+	@PostMapping("/public/forgot-password")
+	public ResponseEntity<?>  forgotPassword(@RequestParam String email){
+		try {
+			userService.generatePasswordResetToken(email);
+			return ResponseEntity.ok(new MessageResponse("Eamil send"));
+			
+		}
+		catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new MessageResponse("Error sending password reset password"));
+		}
+		
+		
 	}
 
 }

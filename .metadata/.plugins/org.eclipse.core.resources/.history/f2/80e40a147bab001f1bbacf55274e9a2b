@@ -1,0 +1,39 @@
+spring.application.name=demo
+
+spring.datasource.url=jdbc:mysql://localhost:3306/notes
+spring.datasource.username=moad
+spring.datasource.password=moadmoad
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernat.dialect=org.hibernate.dialect.MYSQLDialect
+
+spring.main.banner-mode=off
+# Reduce logging level
+logging.level.root=warn
+
+
+# config to display SQL statement
+# Log SQL statement
+logging.level.org.hibernate.SQL=debug 
+logging.level.org.springframework.security=DEBUG
+# Log values for SQL statement
+logging.level.org.hibernate.orm.jdbc.bind=trace
+
+# login form
+spring.security.user.name=moad
+spring.security.user.password=moadmoad
+
+# JWTUtils
+spring.app.jwtSecret=mySecretKey123912738aopsgjnspkmndfsopkvajoirjg94gf2opfng2moknm
+spring.app.jwtExpirationMs=172800000
+
+frontend.url=http://localhost:3000
+
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=courses.faisal@gmail.com
+spring.mail.password=fxbpviwjvplqoiqm
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+

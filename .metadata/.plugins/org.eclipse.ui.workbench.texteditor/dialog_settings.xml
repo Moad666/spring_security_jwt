@@ -6,8 +6,10 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=""/>
+		<item key="selection" value="CustomLoggingFilter"/>
 		<list key="findhistory">
+			<item value="CustomLoggingFilter"/>
+			<item value="User"/>
 			<item value="springbootwebsecurity"/>
 			<item value="websecurity"/>
 			<item value="Springboot"/>

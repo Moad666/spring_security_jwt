@@ -1,0 +1,8 @@
+package com.example.demo.entity;
+
+
+// present our token reset creating
+public class PasswordResetToken {
+	
+	
+}
