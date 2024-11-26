@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dtos.UserDTO;
@@ -39,6 +40,9 @@ public class AdminService {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	
 	//@PreAuthorize("hasRole('ADMIN')")
@@ -99,6 +103,24 @@ public class AdminService {
         String resetUrl = frontendUrl + "/reset-password?token=" + token;
         // Send email to user
         emailService.sendPasswordResetEmail(user.getEmail(), resetUrl);
+    }
+	
+	public void resetPassword(String token, String newPassword) {
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Invalid password reset token"));
+
+        if (resetToken.getUsed() != null && resetToken.getUsed())
+            throw new RuntimeException("Password reset token has already been used");
+
+        if (resetToken.getExpiryDate().isBefore(Instant.now()))
+            throw new RuntimeException("Password reset token has expired");
+
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        adminrepository.save(user);
+
+        resetToken.setUsed(true);
+        passwordResetTokenRepository.save(resetToken);
     }
 	
 }

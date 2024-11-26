@@ -178,7 +178,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/public/forgot-password")
-	public ResponseEntity<?>  forgotPassword(@RequestParam String email){
+	public ResponseEntity<?> forgotPassword(@RequestParam String email){
 		try {
 			userService.generatePasswordResetToken(email);
 			return ResponseEntity.ok(new MessageResponse("Eamil send"));
@@ -188,8 +188,19 @@ public class AuthController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new MessageResponse("Error sending password reset password"));
 		}
-		
-		
+	}
+	
+	@PostMapping("/public/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestParam String token, @RequestParam String newPassword){
+		try {
+			userService.resetPassword(token, newPassword);
+			return ResponseEntity.ok(new MessageResponse("Password reset successful !"));
+
+		}catch(RuntimeException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(new MessageResponse("Error reseting password"));
+		}
 	}
 
 }
